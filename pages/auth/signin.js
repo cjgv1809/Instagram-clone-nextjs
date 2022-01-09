@@ -1,9 +1,14 @@
 import { getProviders, signIn } from "next-auth/react";
+import Head from "next/head";
 import Header from "../../components/Header";
 
 function SignIn({ providers }) {
   return (
     <>
+      <Head>
+        <title>Instagram 2.0</title>
+        <link rel="icon" href="/instagram-logo.svg" />
+      </Head>
       <Header />
       <div className="grid place-items-center min-h-screen py-2 px-14 text-center">
         <img
