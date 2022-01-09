@@ -14,31 +14,27 @@ function Stories() {
 
     // }));
     function fetchData() {
-      fetch("https://uifaces.co/api?limit=20", {
-        method: "GET",
-        headers: {
-          "X-API-KEY": "93EE7951-88AC43C1-91002783-C321ED0E",
-        },
-      })
+      fetch("https://randomuser.me/api/?results=20")
         .then((res) => res.json())
         .then((results) => {
-          setSuggestions(results);
+          setSuggestions(results.results);
         })
         .catch((err) => console.log(err));
     }
     fetchData();
   }, []);
 
-  // new array with users that have names
-  const usernames = suggestions.filter((profile) => profile.name !== "");
-
   return (
     <div className="flex space-x-2 p-6 bg-white mt-8 border border-gray-200 rounded-xl overflow-x-scroll scrollbar-thin scrollbar-thumb-gray-400 select-none">
       {session && (
         <Story img={session.user.image} username={session.user.username} />
       )}
-      {usernames.map((profile, i) => (
-        <Story key={i} img={profile.photo} username={profile.name} />
+      {suggestions.map((profile, i) => (
+        <Story
+          key={i}
+          img={profile.picture.thumbnail}
+          username={profile.login.username}
+        />
       ))}
     </div>
   );

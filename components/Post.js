@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   addDoc,
   collection,
@@ -29,6 +29,7 @@ function Post({ id, username, userImg, img, caption }) {
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -112,7 +113,10 @@ function Post({ id, username, userImg, img, caption }) {
             ) : (
               <HeartIcon onClick={likePost} className="btn" />
             )}
-            <ChatIcon className="btn" />
+            <ChatIcon
+              className="btn"
+              onClick={() => inputRef.current.focus()}
+            />
             <PaperAirplaneIcon className="btn rotate-45" />
           </div>
           <BookmarkIcon className="btn" />
@@ -123,7 +127,7 @@ function Post({ id, username, userImg, img, caption }) {
       <div className="p-5 truncate">
         {likes.length > 0 && (
           <p className="font-bold mb-1">
-            {likes.length} {likes.length === 1 ? "like" : "likes"}{" "}
+            {likes.length} {likes.length === 1 ? "like" : "likes"}
           </p>
         )}
         <span className="font-bold mr-1">{username} </span>
@@ -149,6 +153,7 @@ function Post({ id, username, userImg, img, caption }) {
             type="text"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            ref={inputRef}
           />
           <button
             type="submit"
